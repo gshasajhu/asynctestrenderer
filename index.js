@@ -1,17 +1,7 @@
-// Fund Alice and sponsor accounts
-await aptos.fundAccount({
-  accountAddress: aliceAddress,
-  amount: ALICE_INITIAL_BALANCE,
-});
-await aptos.fundAccount({
-  accountAddress: sponsorAddress,
-  amount: SPONSOR_INITIAL_BALANCE,
-});
+// Alice should have the initial balance minus tranfer amount
+if (aliceBalanceAfter[0].amount !== ALICE_INITIAL_BALANCE - TRANSFER_AMOUNT)
+  throw new Error("Alice's balance after transfer is incorrect");
 
-// Show account balances
-const aliceBalanceBefore = await aptos.getAccountCoinsData({
-  accountAddress: aliceAddress,
-});
-const sponsorBalanceBefore = await aptos.getAccountCoinsData({
-  accountAddress: sponsorAddress,
-});
+// Sponsor should have the initial balance minus gas
+if (sponsorBalanceAfter[0].amount >= SPONSOR_INITIAL_BALANCE)
+  throw new Error("Sponsor's balance after transfer is incorrect");
